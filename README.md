@@ -9,9 +9,12 @@ Medhashree Adhikari
 Wednesday, April 17, 2024
 
 Acknowledgements:
+
     Tutors:
-    Peers:
+    Peers: Alyssa, Connor
     Links:
+        https://github.com/medhashreea/lab-linked-lists.git
+
 
 Description:
     
