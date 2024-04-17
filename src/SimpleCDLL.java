@@ -2,20 +2,15 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-/**
- * Simple doubly-linked lists.
- *
- * These do *not* (yet) support the Fail Fast policy.
- */
-public class SimpleDLL<T> implements SimpleList<T> {
+public class SimpleCDLL<T> implements SimpleList<T> {
   // +--------+------------------------------------------------------------
   // | Fields |
   // +--------+
 
   /**
-   * The front of the list
+   * The dummy node
    */
-  Node2<T> front;
+  Node2<T> dummy;
 
   /**
    * The number of values in the list.
@@ -27,12 +22,16 @@ public class SimpleDLL<T> implements SimpleList<T> {
   // +--------------+
 
   /**
-   * Create an empty list.
+   * builds a SimpleCDLL with a given value
    */
-  public SimpleDLL() {
-    this.front = null;
-    this.size = 0;
-  } // SimpleDLL
+  public SimpleCDLL() {
+    this.dummy = new Node2<T>(null);
+
+    this.dummy.next = null;
+    this.dummy.prev = null;
+    
+    this.size = 0; 
+  } // SimpleCDLL()
 
   // +-----------+---------------------------------------------------------
   // | Iterators |
@@ -56,14 +55,17 @@ public class SimpleDLL<T> implements SimpleList<T> {
       int pos = 0;
 
       /**
-       * The cursor is between neighboring values, so we start links
-       * to the previous and next value..
+       * The dummy node is what comes before the iterator
        */
-      Node2<T> prev = null;
-      Node2<T> next = SimpleDLL.this.front;
+      Node2<T> prev = SimpleCDLL.this.dummy.prev;
 
       /**
-       * The node to be updated by remove or set.  Has a value of
+       * The front node is what comes after the iterator
+       */
+      Node2<T> next = SimpleCDLL.this.dummy.next;
+
+      /**
+       * The node to be updated by remove or set. Has a value of
        * null when there is no such value.
        */
       Node2<T> update = null;
@@ -72,44 +74,55 @@ public class SimpleDLL<T> implements SimpleList<T> {
       // | Methods |
       // +---------+
 
+      /**
+       * inserts a new value in the linked/circular structure
+       */
       public void add(T val) throws UnsupportedOperationException {
-        // Special case: The list is empty)
-        if (SimpleDLL.this.front == null) {
-          SimpleDLL.this.front = new Node2<T>(val);
-          this.prev = SimpleDLL.this.front;
-        } // empty list
-        // Special case: At the front of a list
-        else if (prev == null) {
-          this.prev = this.next.insertBefore(val);
-          SimpleDLL.this.front = this.prev;
-        } // front of list
-        // Normal case
-        else {
-          this.prev = this.prev.insertAfter(val);
-        } // normal case
+        if(dummy.next == null) {
+          // create new node
+          Node2<T> newNode = new Node2<T>(val);
 
-        // Note that we cannot update
+          // reassign pointers
+          dummy.next = newNode;
+          dummy.prev = newNode;
+          newNode.next = dummy;
+          newNode.prev = dummy;
+        } // empty list
+        else {
+          this.prev = this.prev.insertBefore(val);
+        } // normal case
+        
         this.update = null;
 
         // Increase the size
-        ++SimpleDLL.this.size;
+        ++SimpleCDLL.this.size;
 
-        // Update the position.  (See SimpleArrayList.java for more of
-        // an explanation.)
+        // Update the position
         ++this.pos;
       } // add(T)
 
+      /**
+       * returns bool based on if there is a next
+       */
       public boolean hasNext() {
-        return (this.pos < SimpleDLL.this.size);
+        // if the next thing is not the dummy, true
+        return (this.next != dummy);
       } // hasNext()
 
+      /**
+       * returns bool based on if there is a previous
+       */
       public boolean hasPrevious() {
-        return (this.pos > 0);
+        // if the previous thing is not the dummy, true
+        return (this.prev != dummy);
       } // hasPrevious()
 
+      /**
+       * returns the next 'thing'
+       */
       public T next() {
         if (!this.hasNext()) {
-         throw new NoSuchElementException();
+          throw new NoSuchElementException();
         } // if
         // Identify the node to update
         this.update = this.next;
@@ -122,14 +135,23 @@ public class SimpleDLL<T> implements SimpleList<T> {
         return this.update.value;
       } // next()
 
+      /**
+       * returns the next index
+       */
       public int nextIndex() {
         return this.pos;
       } // nextIndex()
 
+      /**
+       * returns the previous index
+       */
       public int previousIndex() {
         return this.pos - 1;
       } // prevIndex
 
+      /**
+       * returns the previous 'thing'
+       */
       public T previous() throws NoSuchElementException {
         if (!this.hasPrevious()) {
           throw new NoSuchElementException();
@@ -138,16 +160,19 @@ public class SimpleDLL<T> implements SimpleList<T> {
         // update this.update to previous
         this.update = this.prev;
 
-        // update 
+        // update
         this.next = this.prev;
         this.prev = this.prev.prev;
 
         // update position
         --this.pos;
-        
+
         return null;
       } // previous()
 
+      /**
+       * removes the element after the iterator
+       */
       public void remove() {
         // Sanity check
         if (this.update == null) {
@@ -164,18 +189,21 @@ public class SimpleDLL<T> implements SimpleList<T> {
         } // if
 
         // Update the front
-        if (SimpleDLL.this.front == this.update) {
-          SimpleDLL.this.front = this.update.next;
+        if (dummy.next == this.update) {
+          dummy.next = this.update.next;
         } // if
 
         // Do the real work
         this.update.remove();
-        --SimpleDLL.this.size;
+        --SimpleCDLL.this.size;
 
         // Note that no more updates are possible
         this.update = null;
       } // remove()
 
+      /**
+       * sets the item after the iterator to val
+       */
       public void set(T val) {
         // Sanity check
         if (this.update == null) {
@@ -188,4 +216,4 @@ public class SimpleDLL<T> implements SimpleList<T> {
       } // set(T)
     };
   } // listIterator()
-} // class SimpleDLL<T>
+} // class SimpleCDLL

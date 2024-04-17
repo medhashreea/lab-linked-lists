@@ -1,20 +1,20 @@
-Mini-Project 3: Text Layout
-============================
+Mini-Project 8: Linked lists, revisited 
+================
+
+Code for a lab on implementing a simple list interface with doubly
+linked lists.
 
 Medhashree Adhikari
 
-Tuesday, April 16, 2024
-
-https://github.com/medhashreea/lab-polymorphism.git
+Wednesday, April 17, 2024
 
 Acknowledgements:
-    
-    Peers: Nye Tenerelli, Alyssa Trapp
-    Evening Tutors:
-
+    Tutors:
+    Peers:
+    Links:
 
 Description:
     
-    Developed from subtype polymorphism lab. Most files
-    implement the TextBlock interface and utilize the row
-    method. 
+
+Q&A:
+    How using a dummy node (and circular linking) simplified the code?
