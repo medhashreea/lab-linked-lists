@@ -3,6 +3,13 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Implements SimpleList<T> and uses iterator to make and adjust lists
+ * 
+ * @author Samuel A. Rebelsky
+ * @author Medhashree Adhikari
+ */
+
 public class SimpleCDLL<T> implements SimpleList<T> {
   // +--------+------------------------------------------------------------
   // | Fields |
@@ -78,13 +85,30 @@ public class SimpleCDLL<T> implements SimpleList<T> {
       // +---------+
 
       /**
-       * inserts a new value in the linked/circular structure
+       * throws an exception when iterator is invalid
        */
-      public void add(T val) {
+      public void failFast() {
         if(this.version != SimpleCDLL.this.count) {
           throw new ConcurrentModificationException();
         }
+      } // failFast()
 
+      /**
+       * updates the list and iterator counts
+       */
+      public void updateItCount() {
+        this.version++;
+        SimpleCDLL.this.count++;
+      } // updateItCount()
+
+      /**
+       * inserts a new value in the linked/circular structure
+       */
+      public void add(T val) {
+        // invalid iterator check
+        failFast();
+
+        // add the value
         this.prev = this.prev.insertAfter(val);
         this.update = null;
 
@@ -94,39 +118,37 @@ public class SimpleCDLL<T> implements SimpleList<T> {
         // Update the position
         ++this.pos;
 
-        this.version++;
-        SimpleCDLL.this.count++;
+        updateItCount();
       } // add(T)
 
       /**
        * returns bool based on if there is a next
        */
       public boolean hasNext() {
-        if(this.version != SimpleCDLL.this.count) {
-          throw new ConcurrentModificationException();
-        }
-        // if the next thing is not the dummy, true
-        return (this.next != dummy);
+        // invalid iterator check
+        failFast();
+
+        // compares size and pos to check if there is next
+        return (this.pos < SimpleCDLL.this.size);
       } // hasNext()
 
       /**
        * returns bool based on if there is a previous
        */
       public boolean hasPrevious() {
-        if(this.version != SimpleCDLL.this.count) {
-          throw new ConcurrentModificationException();
-        }
-        // if the previous thing is not the dummy, true
-        return (this.prev != dummy);
+        // invalid iterator check
+        failFast();
+        
+        // compares size and pos to check if there is prev
+        return (this.pos > 0);
       } // hasPrevious()
 
       /**
        * returns the next 'thing'
        */
       public T next() {
-        if(this.version != SimpleCDLL.this.count) {
-          throw new ConcurrentModificationException();
-        }
+        // invalid iterator check
+        failFast();
 
         if (!this.hasNext()) {
           throw new NoSuchElementException();
@@ -147,9 +169,8 @@ public class SimpleCDLL<T> implements SimpleList<T> {
        * returns the next index
        */
       public int nextIndex() {
-        if(this.version != SimpleCDLL.this.count) {
-          throw new ConcurrentModificationException();
-        }
+        // invalid iterator check
+        failFast();
 
         return this.pos;
       } // nextIndex()
@@ -158,9 +179,8 @@ public class SimpleCDLL<T> implements SimpleList<T> {
        * returns the previous index
        */
       public int previousIndex() {
-        if(this.version != SimpleCDLL.this.count) {
-          throw new ConcurrentModificationException();
-        }
+        // invalid iterator check
+        failFast();
 
         return this.pos - 1;
       } // prevIndex
@@ -169,9 +189,8 @@ public class SimpleCDLL<T> implements SimpleList<T> {
        * returns the previous 'thing'
        */
       public T previous() throws NoSuchElementException {
-        if(this.version != SimpleCDLL.this.count) {
-          throw new ConcurrentModificationException();
-        }
+        // invalid iterator check
+        failFast();
 
         if (!this.hasPrevious()) {
           throw new NoSuchElementException();
@@ -187,34 +206,24 @@ public class SimpleCDLL<T> implements SimpleList<T> {
         // update position
         --this.pos;
 
-        return null;
+        return this.update.value;
       } // previous()
 
       /**
        * removes the element after the iterator
        */
       public void remove() {
-        if(this.version != SimpleCDLL.this.count) {
-          throw new ConcurrentModificationException();
-        }
+        // invalid iterator check
+        failFast();
 
         // Sanity check
         if (this.update == null) {
           throw new IllegalStateException();
         } // if
 
-        // Update the cursor
-        if (this.next == this.update) {
-          this.next = this.update.next;
-        } // if
         if (this.prev == this.update) {
           this.prev = this.update.prev;
           --this.pos;
-        } // if
-
-        // Update the front
-        if (dummy.next == this.update) {
-          dummy.next = this.update.next;
         } // if
 
         // Do the real work
@@ -223,15 +232,16 @@ public class SimpleCDLL<T> implements SimpleList<T> {
 
         // Note that no more updates are possible
         this.update = null;
+
+        updateItCount();
       } // remove()
 
       /**
        * sets the item after the iterator to val
        */
       public void set(T val) {
-        if(this.version != SimpleCDLL.this.count) {
-          throw new ConcurrentModificationException();
-        }
+        // invalid iterator check
+        failFast();
 
         // Sanity check
         if (this.update == null) {

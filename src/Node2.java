@@ -1,5 +1,7 @@
 /**
  * Nodes for doubly-linked structures.
+ * 
+ * @author Samuel A. Rebelsky
  */
 public class Node2<T> {
   // +--------+------------------------------------------------------

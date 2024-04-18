@@ -1,6 +1,11 @@
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+/**
+ * Implements SimpleList<T> and uses iterator to make and adjust lists
+ *
+ * @author Samuel A. Rebelsky
+ */
 
 /**
  * Simple doubly-linked lists.

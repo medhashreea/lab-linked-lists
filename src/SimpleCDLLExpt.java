@@ -1,4 +1,9 @@
 import java.io.PrintWriter;
+/**
+ * Experiments for SDLL and CDLL
+ * 
+ * @author Samuel A. Rebelsky
+ */
 
 /**
  * Some simple experiments with SimpleDLLs
@@ -15,10 +20,9 @@ import java.io.PrintWriter;
 
 public class SimpleCDLLExpt {
   public static void main(String[] args) throws Exception {
-    PrintWriter pen = new PrintWriter(System.out, true);
+     PrintWriter pen = new PrintWriter(System.out, true);
     SimpleListExpt.expt1(pen, new SimpleCDLL<String>());
     SimpleListExpt.expt2(pen, new SimpleCDLL<String>());
     SimpleListExpt.expt3(pen, new SimpleCDLL<String>());
-    // SimpleListExpt.expt4(pen, new SimpleDLL<String>(), 3);
   } // main(String[]
 } // SDLLExpt
