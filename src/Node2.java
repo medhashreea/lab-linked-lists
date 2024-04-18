@@ -8,7 +8,7 @@ public class Node2<T> {
   // | Fields |
   // +--------+
 
-  /** 
+  /**
    * The previous node.
    */
   Node2<T> prev;
@@ -27,7 +27,7 @@ public class Node2<T> {
   // | Constructors |
   // +--------------+
 
-  /** 
+  /**
    * Create a new node.
    */
   public Node2(Node2<T> prev, T value, Node2<T> next) {
@@ -37,7 +37,7 @@ public class Node2<T> {
   } // Node2(Node2<T>, T, Node2<T>)
 
   /**
-   * Create a new node with no previous link.  (E.g., the front
+   * Create a new node with no previous link. (E.g., the front
    * of some kinds of lists.)
    */
   public Node2(T value, Node2<T> next) {
@@ -45,7 +45,7 @@ public class Node2<T> {
   } // Node2(T, Node2<T>)
 
   /**
-   * Create a new node with no next link.  (Included primarily
+   * Create a new node with no next link. (Included primarily
    * for symmetry.)
    */
   public Node2(Node2<T> prev, T value) {
@@ -55,16 +55,16 @@ public class Node2<T> {
   /**
    * Create a new node with no links.
    */
-   public Node2(T value) {
-     this(null, value, null);
-   } // Node2(T)
+  public Node2(T value) {
+    this(null, value, null);
+  } // Node2(T)
 
   // +---------+-----------------------------------------------------
   // | Methods |
   // +---------+
 
   /**
-   * Insert a new value after this node.  Returns the new node.
+   * Insert a new value after this node. Returns the new node.
    */
   Node2<T> insertAfter(T value) {
     Node2<T> tmp = new Node2<T>(this, value, this.next);
@@ -76,7 +76,7 @@ public class Node2<T> {
   } // insertAfter
 
   /**
-   * Insert a new value before this node.  Returns the new node.
+   * Insert a new value before this node. Returns the new node.
    */
   Node2<T> insertBefore(T value) {
     Node2<T> tmp = new Node2<T>(this.prev, value, this);

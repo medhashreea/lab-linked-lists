@@ -1,6 +1,7 @@
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+
 /**
  * Implements SimpleList<T> and uses iterator to make and adjust lists
  *
@@ -68,7 +69,7 @@ public class SimpleDLL<T> implements SimpleList<T> {
       Node2<T> next = SimpleDLL.this.front;
 
       /**
-       * The node to be updated by remove or set.  Has a value of
+       * The node to be updated by remove or set. Has a value of
        * null when there is no such value.
        */
       Node2<T> update = null;
@@ -99,7 +100,7 @@ public class SimpleDLL<T> implements SimpleList<T> {
         // Increase the size
         ++SimpleDLL.this.size;
 
-        // Update the position.  (See SimpleArrayList.java for more of
+        // Update the position. (See SimpleArrayList.java for more of
         // an explanation.)
         ++this.pos;
       } // add(T)
@@ -114,7 +115,7 @@ public class SimpleDLL<T> implements SimpleList<T> {
 
       public T next() {
         if (!this.hasNext()) {
-         throw new NoSuchElementException();
+          throw new NoSuchElementException();
         } // if
         // Identify the node to update
         this.update = this.next;
@@ -143,13 +144,13 @@ public class SimpleDLL<T> implements SimpleList<T> {
         // update this.update to previous
         this.update = this.prev;
 
-        // update 
+        // update
         this.next = this.prev;
         this.prev = this.prev.prev;
 
         // update position
         --this.pos;
-        
+
         return null;
       } // previous()
 

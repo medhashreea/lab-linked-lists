@@ -42,7 +42,7 @@ public class SimpleListExpt {
   /**
    * Add a variety of elements, describing what happens.
    */
-  static void addExpt(PrintWriter pen, SimpleList<String> lst, 
+  static void addExpt(PrintWriter pen, SimpleList<String> lst,
       String[] strings) throws Exception {
     ListIterator<String> lit = lst.listIterator();
 
@@ -143,30 +143,30 @@ public class SimpleListExpt {
 
   static void expt1(PrintWriter pen, SimpleList<String> lst) throws Exception {
     pen.println("Experiment 1: Add a variety of elements.");
-    addExpt(pen, lst, new String[] {"A", "B", "C"});
-    addExpt(pen, lst, new String[] {"X", "Y", "Z"});
+    addExpt(pen, lst, new String[] { "A", "B", "C" });
+    addExpt(pen, lst, new String[] { "X", "Y", "Z" });
     pen.println();
   } // expt1(PrintWriter, SimpleList<String>)
 
   static void expt2(PrintWriter pen, SimpleList<String> lst) throws Exception {
     pen.println("Experiment 2: Remove alternating elements, moving forward.");
     final Counter counter = new Counter();
-    addStrings(pen, lst, new String[] {"A", "B", "C", "D", "E", "F", "G"});
+    addStrings(pen, lst, new String[] { "A", "B", "C", "D", "E", "F", "G" });
     removeForwardExpt(pen, lst, (str) -> (counter.get() % 2) == 0);
     pen.println();
   } // expt2(PrintWriter, SimpleList<String>)
 
   static void expt3(PrintWriter pen, SimpleList<String> lst) throws Exception {
     pen.println("Experiment 3: Remove random elements, moving forward.");
-    addStrings(pen, lst, new String[] {"A", "B", "C", "D", "E", "F", "G"});
+    addStrings(pen, lst, new String[] { "A", "B", "C", "D", "E", "F", "G" });
     removeForwardExpt(pen, lst, (str) -> rand.nextInt(2) == 0);
     pen.println();
   } // expt3(PrintWriter, SimpleList<String>
 
-  static void expt4(PrintWriter pen, SimpleList<String> lst, int n) 
+  static void expt4(PrintWriter pen, SimpleList<String> lst, int n)
       throws Exception {
     pen.println("Experiment 4: Removing elements with a random walk.");
-    addStrings(pen, lst, new String[] {"A", "B", "C", "D", "E", "F", "G"});
+    addStrings(pen, lst, new String[] { "A", "B", "C", "D", "E", "F", "G" });
     try {
       randomWalkRemove(pen, lst, n);
     } catch (Exception e) {
@@ -182,6 +182,7 @@ public class SimpleListExpt {
  */
 class Counter {
   int val = 0;
+
   int get() {
     return val++;
   } // get()

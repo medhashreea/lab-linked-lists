@@ -88,7 +88,7 @@ public class SimpleCDLL<T> implements SimpleList<T> {
        * throws an exception when iterator is invalid
        */
       public void failFast() {
-        if(this.version != SimpleCDLL.this.count) {
+        if (this.version != SimpleCDLL.this.count) {
           throw new ConcurrentModificationException();
         }
       } // failFast()
@@ -138,7 +138,7 @@ public class SimpleCDLL<T> implements SimpleList<T> {
       public boolean hasPrevious() {
         // invalid iterator check
         failFast();
-        
+
         // compares size and pos to check if there is prev
         return (this.pos > 0);
       } // hasPrevious()
